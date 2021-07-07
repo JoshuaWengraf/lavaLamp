@@ -1,22 +1,35 @@
- 
-var context;
-var dx= 4;
-var dy=4;
-var y=150;
-var x=10;
-function draw(){
-	context= canvas.getContext('2d');
-	context.clearRect(0,0,300,300);
+const blue = "#0000ff"
+
+let DrawWindow = function(xWidth, yWidth){
+	context = canvas.getContext('2d');
+	context.clearRect(0,0,xWidth,yWidth);
+}
+
+let DrawCircle = function (x, y, radius) {
 	context.beginPath();
-	context.fillStyle="#0000ff";
-	context.arc(x,y,20,0,Math.PI*2,true);
+	context.fillStyle = blue;
+	context.arc(x, y, radius, 0, Math.PI * 2, false);
 	context.closePath();
 	context.fill();
-	if( x<0 || x>300)
-	dx=-dx;
-	if( y<0 || y>300)
-		dy=-dy;
-		x+=dx;
-		y+=dy;
-	}
+}
+
+let circleYPosition = 200;
+let circleXPosition = 260*Math.random();
+let circleRadius = 20*Math.random();
+
+function draw(){	
+	
+	DrawWindow(300,300)
+	
+	DrawCircle(circleXPosition, circleYPosition, circleRadius);
+
+	if (circleYPosition < -50){
+		circleYPosition = 200;
+		circleXPosition = 300*Math.random();
+		circleRadius = 20*Math.random()
+	};
+	
+	circleYPosition -= 2;
+	circleRadius += 0.1;
+}
 setInterval(draw,10); 
