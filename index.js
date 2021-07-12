@@ -1,35 +1,42 @@
 const blue = "#0000ff"
 
+class Bubble {
+	constructor(x){
+		this.x = x;
+		this.y = 200;
+		this.radius = 20*Math.random();
+	}
+
+	move() {
+		this.x = this.x + Math.random() - 0.5;
+		this.y -= 1;
+	}
+	draw() {
+		context.beginPath();
+		context.fillStyle = blue;
+		context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+		context.closePath();
+		context.fill();
+	}
+}
+
 let DrawWindow = function(xWidth, yWidth){
 	context = canvas.getContext('2d');
 	context.clearRect(0,0,xWidth,yWidth);
 }
 
-let DrawCircle = function (x, y, radius) {
-	context.beginPath();
-	context.fillStyle = blue;
-	context.arc(x, y, radius, 0, Math.PI * 2, false);
-	context.closePath();
-	context.fill();
-}
-
-let circleYPosition = 200;
-let circleXPosition = 260*Math.random();
-let circleRadius = 20*Math.random();
+let bubble1 = new Bubble(50);
+let bubble2 = new Bubble(100);
 
 function draw(){	
 	
 	DrawWindow(300,300)
-	
-	DrawCircle(circleXPosition, circleYPosition, circleRadius);
 
-	if (circleYPosition < -50){
-		circleYPosition = 200;
-		circleXPosition = 300*Math.random();
-		circleRadius = 20*Math.random()
-	};
-	
-	circleYPosition -= 2;
-	circleRadius += 0.1;
+	bubble1.move();
+	bubble2.move();
+
+	bubble1.draw();
+	bubble2.draw();
 }
+
 setInterval(draw,10); 
