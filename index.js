@@ -1,16 +1,17 @@
-const blue = "#0000ff"
+const blue = "#43A6C6"
 
 class Bubble {
-	constructor(x){
-		this.x = x;
+	constructor(){
+		this.x = 300*Math.random();
 		this.y = 200;
 		this.radius = 20*Math.random();
 	}
 
 	move() {
-		this.x = this.x + Math.random() - 0.5;
-		this.y -= 1;
+		this.x = this.x + 10*(Math.random() - 0.5);
+		this.y -= 2;
 	}
+	
 	draw() {
 		context.beginPath();
 		context.fillStyle = blue;
@@ -25,18 +26,32 @@ let DrawWindow = function(xWidth, yWidth){
 	context.clearRect(0,0,xWidth,yWidth);
 }
 
-let bubble1 = new Bubble(50);
-let bubble2 = new Bubble(100);
+let bubbles = new Array();
 
-function draw(){	
-	
+const TIME_BETWEEN_FRAMES = 0.1
+
+let currentTime = Math.floor(Date.now() / 1000);
+let lastRenderTime = 0
+
+function draw(){
+
 	DrawWindow(300,300)
 
-	bubble1.move();
-	bubble2.move();
+	bubbles.push(new Bubble())
+	for (const bubble of bubbles){
+		bubble.move()
+		bubble.draw() 
+		
+		if (bubble.y < -200){
+			bubbles.pop()
+		}
+	};
 
-	bubble1.draw();
-	bubble2.draw();
+	window.requestAnimationFrame(draw)
+
+	const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
+	if (secondsSinceLastRender < 10){return} 
+	lastRenderTime = currentTime
 }
 
-setInterval(draw,10); 
+draw()
